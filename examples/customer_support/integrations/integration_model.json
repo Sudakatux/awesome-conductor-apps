@@ -1,0 +1,94 @@
+[
+    {
+        "integration": {
+            "createTime": 1691396648165,
+            "updateTime": 1736418535691,
+            "createdBy": "viren@orkes.io",
+            "updatedBy": "dilip@orkes.io",
+            "name": "openai",
+            "type": "openai",
+            "description": "open ai description",
+            "category": "AI_MODEL",
+            "configuration": {
+                "api_key": "hidden_not_relevant"
+            },
+            "enabled": true,
+            "tags": [],
+            "modelsCount": 6
+        },
+        "models": [
+            {
+                "createTime": 1715051455397,
+                "updateTime": 1715051455397,
+                "createdBy": "viren@orkes.io",
+                "updatedBy": "viren@orkes.io",
+                "integrationName": "openai",
+                "api": "text-embedding-3-medium",
+                "description": "text-embedding-3-medium",
+                "configuration": {},
+                "enabled": true,
+                "tags": []
+            },
+            {
+                "createTime": 1715051464389,
+                "updateTime": 1715051464389,
+                "createdBy": "viren@orkes.io",
+                "updatedBy": "viren@orkes.io",
+                "integrationName": "openai",
+                "api": "text-embedding-3-small",
+                "description": "text-embedding-3-small",
+                "configuration": {},
+                "enabled": true,
+                "tags": []
+            },
+            {
+                "createTime": 1715051477007,
+                "updateTime": 1715051477007,
+                "createdBy": "viren@orkes.io",
+                "updatedBy": "viren@orkes.io",
+                "integrationName": "openai",
+                "api": "gpt-4-turbo",
+                "description": "gpt-4-turbo",
+                "configuration": {},
+                "enabled": true,
+                "tags": []
+            },
+            {
+                "createTime": 1697643659716,
+                "updateTime": 1697643659716,
+                "createdBy": "tomas@orkes.io",
+                "updatedBy": "tomas@orkes.io",
+                "integrationName": "openai",
+                "api": "gpt-4",
+                "description": "GPT-4 Model",
+                "configuration": {},
+                "enabled": true,
+                "tags": []
+            },
+            {
+                "createTime": 1724711866691,
+                "updateTime": 1724711866691,
+                "createdBy": "viren@orkes.io",
+                "updatedBy": "viren@orkes.io",
+                "integrationName": "openai",
+                "api": "gpt-4o",
+                "description": "gpt-4o",
+                "configuration": {},
+                "enabled": true,
+                "tags": []
+            },
+            {
+                "createTime": 1741051423404,
+                "updateTime": 1741051423404,
+                "createdBy": "app:69d1928f-61ab-4378-b67a-3bb02568611c",
+                "updatedBy": "app:69d1928f-61ab-4378-b67a-3bb02568611c",
+                "integrationName": "openai",
+                "api": "gpt-4o-mini",
+                "description": "openai integration",
+                "configuration": {},
+                "enabled": true,
+                "tags": []
+            }
+        ]
+    }
+]

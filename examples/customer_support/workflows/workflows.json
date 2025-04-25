@@ -1,0 +1,296 @@
+[
+    {
+        "createTime": 1742326690774,
+        "updateTime": 1742348054065,
+        "name": "customer_service_workflow",
+        "description": "Simple customer workflow agent",
+        "version": 2,
+        "tasks": [
+          {
+            "name": "set_variable_1",
+            "taskReferenceName": "set_variable_ref_1",
+            "inputParameters": {
+              "messages": "${workflow.input.messages}"
+            },
+            "type": "SET_VARIABLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": [],
+            "onStateChange": {},
+            "permissive": false
+          },
+          {
+            "name": "do_while",
+            "taskReferenceName": "do_while_ref",
+            "inputParameters": {},
+            "type": "DO_WHILE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopCondition": "(function () {\n  return true;\n})();",
+            "loopOver": [
+              {
+                "name": "return_immediate_response",
+                "taskReferenceName": "immediate_response_ref",
+                "inputParameters": {
+                  "llmProvider": "openai",
+                  "model": "gpt-4o-mini",
+                  "promptVariables": {
+                    "date": "",
+                    "messages": "${workflow.variables.messages}"
+                  },
+                  "instructions": "customer_support",
+                  "messages": "${workflow.variables.messages}"
+                },
+                "type": "LLM_CHAT_COMPLETE",
+                "decisionCases": {},
+                "defaultCase": [],
+                "forkTasks": [],
+                "startDelay": 0,
+                "joinOn": [],
+                "optional": false,
+                "defaultExclusiveJoinTask": [],
+                "asyncComplete": false,
+                "loopOver": [],
+                "onStateChange": {},
+                "permissive": false
+              },
+              {
+                "name": "tool_selection",
+                "taskReferenceName": "tool_selection_ref",
+                "inputParameters": {
+                  "last_message_from_user": "${immediate_response_ref.output.result}"
+                },
+                "type": "SWITCH",
+                "decisionCases": {
+                  "get_customer_data": [
+                    {
+                      "name": "mock_customer_data",
+                      "taskReferenceName": "mock_customer_data_ref",
+                      "inputParameters": {
+                        "expression": "(function () {\n  return {\n    id: 1,\n    name: \"James\",\n    last: \"Stuart Milne\",\n    email: \"jstuartmilne@gmail.com\"\n  };\n})();",
+                        "evaluatorType": "graaljs"
+                      },
+                      "type": "INLINE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": [],
+                      "onStateChange": {},
+                      "permissive": false
+                    },
+                    {
+                      "name": "system_customer_data_result",
+                      "taskReferenceName": "system_customer_data_result_ref",
+                      "inputParameters": {
+                        "expression": "(() => { return ($.existingMessages || []).concat([{role: 'system', message: \"Tool result is :\"+$.newMessage}]); })()",
+                        "evaluatorType": "graaljs",
+                        "existingMessages": "${workflow.variables.messages}",
+                        "newMessage": "${mock_customer_data_ref.output.result}"
+                      },
+                      "type": "INLINE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": [],
+                      "onStateChange": {},
+                      "permissive": false
+                    },
+                    {
+                      "name": "set_variable_4",
+                      "taskReferenceName": "set_variable_ref_4",
+                      "inputParameters": {
+                        "messages": "${system_customer_data_result_ref.output.result}"
+                      },
+                      "type": "SET_VARIABLE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": [],
+                      "onStateChange": {},
+                      "permissive": false
+                    }
+                  ],
+                  "get_current_customer": [
+                    {
+                      "name": "mock_customer_orders",
+                      "taskReferenceName": "mock_customer_orders_ref",
+                      "inputParameters": {
+                        "expression": "(function () {\n  return [{\n    id: 1,\n    customerId: 1,\n    productName: \"I Pad Pro\",\n    price: 17.5,\n    orderDate: \"07/03/1994\",\n    status: \"DELIVERED\"\n  },\n  {\n    id: 1,\n    customerId: 1,\n    productName: \"Apple Mini\",\n    price: 17.5,\n    orderDate: \"11/12/2025\",\n    status: \"CANCELLED\"\n  }]\n})();",
+                        "evaluatorType": "graaljs"
+                      },
+                      "type": "INLINE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": [],
+                      "onStateChange": {},
+                      "permissive": false
+                    },
+                    {
+                      "name": "system_customer_order_result",
+                      "taskReferenceName": "system_customer_order_result_ref",
+                      "inputParameters": {
+                        "expression": "(() => { return ($.existingMessages || []).concat([{role: 'system', message: \"Tool result is :\"+$.newMessage}]); })()",
+                        "evaluatorType": "graaljs",
+                        "existingMessages": "${workflow.variables.messages}",
+                        "newMessage": "${mock_customer_orders_ref.output.result}"
+                      },
+                      "type": "INLINE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": [],
+                      "onStateChange": {},
+                      "permissive": false
+                    },
+                    {
+                      "name": "set_variable_3",
+                      "taskReferenceName": "set_variable_ref_3",
+                      "inputParameters": {
+                        "messages": "${system_customer_order_result_ref.output.result}"
+                      },
+                      "type": "SET_VARIABLE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": [],
+                      "onStateChange": {},
+                      "permissive": false
+                    }
+                  ]
+                },
+                "defaultCase": [
+                  {
+                    "name": "wait_for_reply",
+                    "taskReferenceName": "wait_for_reply",
+                    "inputParameters": {},
+                    "type": "WAIT",
+                    "decisionCases": {},
+                    "defaultCase": [],
+                    "forkTasks": [],
+                    "startDelay": 0,
+                    "joinOn": [],
+                    "optional": false,
+                    "defaultExclusiveJoinTask": [],
+                    "asyncComplete": false,
+                    "loopOver": [],
+                    "onStateChange": {},
+                    "permissive": false
+                  },
+                  {
+                    "name": "inline",
+                    "taskReferenceName": "inline_ref",
+                    "inputParameters": {
+                      "expression": "(() => { return ($.existingMessages || []).concat([{role: 'user', message: $.newMessage}]); })()",
+                      "evaluatorType": "graaljs",
+                      "existingMessages": "${workflow.variables.messages}",
+                      "newMessage": "${wait_for_reply.output.message}"
+                    },
+                    "type": "INLINE",
+                    "decisionCases": {},
+                    "defaultCase": [],
+                    "forkTasks": [],
+                    "startDelay": 0,
+                    "joinOn": [],
+                    "optional": false,
+                    "defaultExclusiveJoinTask": [],
+                    "asyncComplete": false,
+                    "loopOver": [],
+                    "onStateChange": {},
+                    "permissive": false
+                  },
+                  {
+                    "name": "set_variable_2",
+                    "taskReferenceName": "set_variable_ref_2",
+                    "inputParameters": {
+                      "messages": "${inline_ref.output.result}"
+                    },
+                    "type": "SET_VARIABLE",
+                    "decisionCases": {},
+                    "defaultCase": [],
+                    "forkTasks": [],
+                    "startDelay": 0,
+                    "joinOn": [],
+                    "optional": false,
+                    "defaultExclusiveJoinTask": [],
+                    "asyncComplete": false,
+                    "loopOver": [],
+                    "onStateChange": {},
+                    "permissive": false
+                  }
+                ],
+                "forkTasks": [],
+                "startDelay": 0,
+                "joinOn": [],
+                "optional": false,
+                "defaultExclusiveJoinTask": [],
+                "asyncComplete": false,
+                "loopOver": [],
+                "evaluatorType": "graaljs",
+                "expression": "(function () {\n  function extractJsonFromTag(str) {\n    // Regex to extract JSON from inside the <apiSkill> tags\n    const regex = /<tool>(.*?)<\\/tool>/s;\n\n    // Match the string against the regex\n    const match = str.match(regex);\n    if (match && match[1]) {\n      try {\n        // Parse the JSON string into an object\n        const jsonObj = JSON.parse(match[1]);\n        return jsonObj;\n      } catch (error) {\n        console.log('Failed to parse JSON:', error);\n        return null;\n      }\n    } else {\n      console.log('No JSON found in the input string');\n      return null;\n    }\n  }\n\n  const hasToolTask = $.last_message_from_user.indexOf(\"</tool>\") != -1\n  if (hasToolTask) {\n    const result = extractJsonFromTag($.last_message_from_user);\n    return result.toolName;\n\n  }\n  return \"default\";\n\n}())",
+                "onStateChange": {},
+                "permissive": false
+              }
+            ],
+            "evaluatorType": "graaljs",
+            "onStateChange": {},
+            "permissive": false
+          }
+        ],
+        "inputParameters": [
+          "messages"
+        ],
+        "outputParameters": {},
+        "failureWorkflow": "",
+        "schemaVersion": 2,
+        "restartable": true,
+        "workflowStatusListenerEnabled": false,
+        "timeoutPolicy": "ALERT_ONLY",
+        "timeoutSeconds": 0,
+        "variables": {},
+        "inputTemplate": {},
+        "enforceSchema": true
+      }
+]
