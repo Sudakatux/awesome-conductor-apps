@@ -1,9 +1,23 @@
 #!/bin/bash
 
-# Default values
-ORKES_API_KEY_ID=${1:-""}
-ORKES_API_KEY_SECRET=${2:-""}
-ORKES_API_URL=${3:-""}
+# Load environment variables from .env.local if it exists
+if [ -f .env.local ]; then
+  echo "Loading environment variables from .env.local"
+  export $(grep -v '^#' .env.local | xargs)
+fi
+
+# Override with command-line arguments if provided and not empty
+if [ ! -z "$1" ]; then
+  ORKES_API_KEY_ID=$1
+fi
+
+if [ ! -z "$2" ]; then
+  ORKES_API_KEY_SECRET=$2
+fi
+
+if [ ! -z "$3" ]; then
+  ORKES_API_URL=$3
+fi
 
 # Export the environment variables
 export ORKES_API_KEY_ID
